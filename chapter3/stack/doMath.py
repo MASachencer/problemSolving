@@ -1,0 +1,9 @@
+def do_math(sym, op1, op2):
+    if sym == '+':
+        return op1 + op2
+    elif sym == '-':
+        return op1 - op2
+    elif sym == '*':
+        return op1 * op2
+    elif sym == '/':
+        return op1 / op2
