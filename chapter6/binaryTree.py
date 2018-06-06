@@ -1,4 +1,5 @@
 import operator
+# from pythonds.trees.binaryTree import BinaryTree
 
 # 前序遍历:首先访问根节点，然后递归地做左侧子树的前序遍历，随后是右侧子树的递归前序遍历。
 # 中序遍历:递归地对左子树进行一次遍历，访问根节点，最后递归遍历右子树。
