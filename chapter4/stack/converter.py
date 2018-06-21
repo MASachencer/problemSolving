@@ -1,5 +1,5 @@
 import string
-from stack import Stack
+from .stack import Stack
 
 
 def base_converter(dec_num, base):

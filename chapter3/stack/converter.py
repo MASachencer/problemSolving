@@ -1,5 +1,5 @@
 import string
-from stack import Stack
+from .stack import Stack
 
 
 def decimal2binary(dec_num):

@@ -1,7 +1,7 @@
-import operator
-from stack import Stack
-from queue_ import Queue_
 # from pythonds.trees.binaryTree import BinaryTree
+import operator
+from .stack import Stack
+from .queue_ import Queue_
 
 
 class BinaryTree:
@@ -58,13 +58,13 @@ class BinaryTree:
     # 入栈先右后左
     def preorder(self):
         s = Stack()
-        s.push(self.key)
+        s.push(self)
         while not s.is_empty():
             t = s.pop()
             print(t.key)
-            if t.rightChild is not None:
+            if t.rightChild:
                 s.push(t.rightChild)
-            if t.leftChild is not None:
+            if t.leftChild:
                 s.push(t.leftChild)
 
     # 中序遍历：递归
@@ -90,13 +90,13 @@ class BinaryTree:
     # 层序遍历：用队列实现
     def level(self):
         q = Queue_()
-        q.enqueue(self.key)
+        q.enqueue(self)
         while not q.is_empty():
             t = q.dequeue()
             print(t.key)
-            if t.leftChild is not None:
+            if t.leftChild:
                 q.enqueue(t.leftChild)
-            if t.rightChild is not None:
+            if t.rightChild:
                 q.enqueue(t.rightChild)
 
     def printexp(self):

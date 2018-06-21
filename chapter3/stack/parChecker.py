@@ -1,4 +1,4 @@
-from stack import Stack
+from .stack import Stack
 
 
 def matches(open, close):

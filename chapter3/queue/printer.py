@@ -1,5 +1,5 @@
 import random
-from queue_ import Queue_
+from .queue_ import Queue_
 
 
 class Task:

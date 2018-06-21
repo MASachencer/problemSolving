@@ -1,3 +1,6 @@
+# from pythonds.trees.bst import BinarySearchTree
+
+
 class TreeNode:
     def __init__(self, key, value):
         self.key = key
@@ -94,7 +97,7 @@ class TreeNode:
     def __repr__(self):
         return self.__str__()
 
-class BinarySearcheTrie:
+class BinarySearcheTree:
     def __init__(self):
         self.root = None
         self.size = 0
@@ -112,19 +115,19 @@ class BinarySearcheTrie:
             self.root = TreeNode(key, value)
         self.size += 1
 
-    def _put(self, key, value, current):
-        if key < current.key:
-            if current.get_left():
-                self._put(key, value, current.left)
+    def _put(self, key, value, node):
+        if key < node.key:
+            if node.get_left():
+                self._put(key, value, node.left)
             else:
-                current.left = TreeNode(key, value)
-                current.left.parent = current
+                node.left = TreeNode(key, value)
+                node.left.parent = node
         else:
-            if current.right:
-                self._put(key, value, current.right)
+            if node.right:
+                self._put(key, value, node.right)
             else:
-                current.right = TreeNode(key, value)
-                current.right.parent = current
+                node.right = TreeNode(key, value)
+                node.right.parent = node
 
     def __sititem__(self, key, value):
         self.put(key, value)
@@ -139,13 +142,13 @@ class BinarySearcheTrie:
         else:
             return None
 
-    def _get(self, key, current):
-        if current.key == key:
-            return current
-        elif key < current.key:
-            return self._get(key, current.left)
-        elif key > current.key:
-            return self._get(key, current.right)
+    def _get(self, key, node):
+        if node.key == key:
+            return node
+        elif key < node.key:
+            return self._get(key, node.left)
+        elif key > node.key:
+            return self._get(key, node.right)
         else:
             return None
 

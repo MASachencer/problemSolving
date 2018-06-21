@@ -1,4 +1,4 @@
-from node import Node
+from .linkedNode import LinkedNode
 
 
 class OrderedList:
@@ -40,7 +40,7 @@ class OrderedList:
             else:
                 previous = current
                 current = current.get_next()
-        temp = Node(item)
+        temp = LinkedNode(item)
         if previous is None:
             temp.set_next(self.head)
             self.head = temp

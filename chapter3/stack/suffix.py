@@ -1,5 +1,15 @@
-from doMath import do_math
-from stack import Stack
+from .stack import Stack
+
+
+def do_math(sym, op1, op2):
+    if sym == '+':
+        return op1 + op2
+    elif sym == '-':
+        return op1 - op2
+    elif sym == '*':
+        return op1 * op2
+    elif sym == '/':
+        return op1 / op2
 
 
 def infix2suffix(infixexpr):

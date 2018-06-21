@@ -1,4 +1,4 @@
-from deque import Deque
+from .deque import Deque
 
 
 def palchecker(astr):

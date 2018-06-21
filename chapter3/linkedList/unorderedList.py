@@ -1,4 +1,4 @@
-from node import Node
+from .linkedNode import LinkedNode
 
 
 class UnorderedList:
@@ -27,7 +27,7 @@ class UnorderedList:
         return found
 
     def add(self, item):
-        temp = Node(item)
+        temp = LinkedNode(item)
         temp.set_next(self.head)
         self.head = temp
 
