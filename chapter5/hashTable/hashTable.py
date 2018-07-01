@@ -1,51 +1,73 @@
 class HashTable:
-    def __init__(self, size):
-        self.size = size
-        self.slots = [None] * self.size
-        self.data = [None] * self.size
+    def __init__(self, size=8):
+        self.slots = [None] * size
+        self.value = [None] * size
+        self.length = 0
+
+    @property
+    def _load_factor(self):
+        return self.length / float(len(self.slots))
+
+    def __len__(self):
+        return self.length
+
+    def __iter__(self):
+        for slot in self.slots:
+            if slot is not None:
+                yield slot
+
+    def __contains__(self, key):
+        return self.get(key) is not None
 
     def __getitem__(self, key):
         return self.get(key)
 
-    def __setitem__(self, key, data):
-        self.put(key, data)
+    def __setitem__(self, key, value):
+        self.put(key, value)
 
-    def hash_func(self, key, size):
-        return key % size
+    def hash_func(self, key):
+        l = len(self.slots)
+        hash_value = abs(hash(key)) % l
+        while self.slots[hash_value] is not None and \
+                self.slots[hash_value] != key:
+            hash_value = (hash_value + 1 + l) % l
+        return hash_value
 
-    def rehash(self, old, size):
-        return (old + 1) % size
+    def rehash(self):
+        old_slots = self.slots
+        old_value = self.value
+        new_size = len(self.slots) * 2
+        self.slots = [None] * new_size
+        self.value = [None] * new_size
+        self.length = 0
+        for idx in range(len(old_slots)):
+            if old_slots[idx] is not None:
+                self.put(old_slots[idx], old_value[idx])
 
-    def put(self, key, data):
-        hash_value = self.hash_func(key, len(self.slots))
-        if self.slots[hash_value] is None:
+    def put(self, key, value):
+        hash_value = self.hash_func(key)
+        if self.slots[hash_value] == key:               # update
+            self.value[hash_value] = value
+        elif self.slots[hash_value] is None:            # add
             self.slots[hash_value] = key
-            self.data[hash_value] = data
-        elif self.slots[hash_value] == key:
-            self.data[hash_value] = data
-        else:
-            next_slot = self.rehash(hash_value, len(self.slots))
-            while self.slots[next_slot] is not None and \
-                    self.slots[next_slot] != key:
-                next_slot = self.rehash(next_slot, len(self.slots))
-            if self.slots[next_slot] is None:
-                self.slots[next_slot] = key
-                self.data[next_slot] = data
-            else:
-                self.data[next_slot] = data
+            self.value[hash_value] = value
+            self.length += 1
+            if self._load_factor >= 0.8:
+                self.rehash()
 
     def get(self, key):
-        start_slot = self.hash_func(key, len(self.slots))
-        data = None
-        stop = False
-        found = False
-        position = start_slot
-        while self.slots[position] is not None and not found and not stop:
-            if self.slots[position] == key:
-                found = True
-                data = self.data[position]
-            else:
-                position = self.rehash(position, len(self.slots))
-                if position == start_slot:
-                    stop = True
-        return data
+        hash_value = self.hash_func(key)
+        if self.slots[hash_value] == key:
+            return self.value[hash_value]
+        elif self.slots[hash_value] is None:
+            return None
+        return None
+
+    def remove(self, key):
+        hash_value = self.hash_func(key)
+        if self.slots[hash_value] == key:
+            self.slots[hash_value] = None
+            self.value[hash_value] = None
+            self.length -= 1
+        elif self.slots[hash_value] is None:
+            self.value[hash_value] = None
