@@ -1,50 +1,89 @@
-# from pythonds.trees.binheap import BinHeap
-
-
-class BinHeap:
+class MaxHeap:
     def __init__(self):
-        self.heaplist = [0]
-        self.currentSize = 0
+        self._items = []
+        self._count = 0
 
-    def perc_up(self, idx):
-        while idx // 2 > 0:
-            if self.heaplist[idx] < self.heaplist[idx // 2]:
-                self.heaplist[idx], self.heaplist[idx // 2] = \
-                    self.heaplist[idx // 2], self.heaplist[idx]
-            idx //= 2
+    def __len__(self):
+        return self._count
 
-    def insert(self, item):
-        self.heaplist.append(item)
-        self.currentSize += 1
-        self.perc_up(self.currentSize)
+    def _perc_up(self, idx):
+        while idx > 0:
+            parent = (idx - 1) // 2
+            if self._items[idx] > self._items[parent]:
+                self._items[idx], self._items[parent] = self._items[parent], self._items[idx]
+            idx = parent
 
-    def min_child(self, idx):
-        if (idx * 2 + 1 > self.currentSize) or \
-            (self.currentSize[idx * 2] <
-                self.currentSize[idx * 2 + 1]):
-            return idx * 2
+    def add(self, item):
+        self._items.append(item)
+        self._count += 1
+        self._sift_up(self._count-1)
+
+    def _max_child(self, idx):
+        left, right = idx * 2 + 1, idx * 2 + 2
+        if left > self._count - 1:
+            return left
         else:
-            return idx * 2 + 1
-
-    def perc_down(self, idx):
-        while (idx * 2) <= self.currentSize:
-            mc = self.min_child(idx)
-            if self.heaplist[idx] > self.heaplist[mc]:
-                self.heaplist[idx], self.heaplist[mc] = \
-                    self.heaplist[mc], self.heaplist[idx]
+            if self._items[left] > self._items[right]:
+                return left
+            else:
+                return right
+            
+    def _perce_down(self, idx):
+        while (idx * 2 + 1) < self._count - 1:
+            mc = self._max_child(idx)
+            if self._items[idx] < self._items[mc]:
+                self._items[idx], self._items[mc] = self._items[mc], self._items[idx]
             idx = mc
 
-    def del_min(self):
-        retval = self.heaplist[1]
-        self.heaplist[1] = self.heaplist.pop()
-        self.currentSize -= 1
-        self.perc_down(1)
-        return retval
 
-    def build_heap(self, lis):
-        idx = len(lis) // 2
-        self.currentSize = len(lis)
-        self.heaplist = [0] + lis[:]
+    def pop_max(self):
+        self._items[0], self._items[self._count-1] = self._items[self._count-1], self._items[0]
+        self._count -= 1
+        item = self._items.pop()
+        self._sift_down(0)
+        return item
+
+class MinHeap:
+    def __init__(self):
+        self._items = []
+        self._count = 0
+
+    def __len__(self):
+        return self._count
+
+    def _perc_up(self, idx):
         while idx > 0:
-            self.perc_down(idx)
-            idx -= 1
+            parent = (idx - 1) // 2
+            if self._items[idx] < self._items[parent]:
+                self._items[idx], self._items[parent] = self._items[parent], self._items[idx]
+            idx = parent
+
+    def add(self, item):
+        self._items.append(item)
+        self._count += 1
+        self._sift_up(self._count-1)
+
+    def _min_child(self, idx):
+        left, right = idx * 2 + 1, idx * 2 + 2
+        if left > self._count - 1:
+            return left
+        else:
+            if self._items[left] < self._items[right]:
+                return left
+            else:
+                return right
+            
+    def _perce_down(self, idx):
+        while (idx * 2 + 1) < self._count - 1:
+            mc = self._max_child(idx)
+            if self._items[idx] > self._items[mc]:
+                self._items[idx], self._items[mc] = self._items[mc], self._items[idx]
+            idx = mc
+
+
+    def pop_max(self):
+        self._items[0], self._items[self._count-1] = self._items[self._count-1], self._items[0]
+        self._count -= 1
+        item = self._items.pop()
+        self._sift_down(0)
+        return item
