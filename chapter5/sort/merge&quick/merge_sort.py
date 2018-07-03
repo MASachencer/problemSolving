@@ -5,23 +5,23 @@ def merge_sort(lyst):
         rear_half = lyst[mid:]
         merge_sort(front_half)
         merge_sort(rear_half)
-        i, j, k = 0, 0, 0
-        while i < len(front_half) and j < len(rear_half):
-            if front_half[i] < rear_half[j]:
-                lyst[k] = front_half[i]
-                i += 1
+        f_idx, r_idx, idx = 0, 0, 0
+        while f_idx < len(front_half) and r_idx < len(rear_half):
+            if front_half[f_idx] < rear_half[r_idx]:
+                lyst[idx] = front_half[f_idx]
+                f_idx += 1
             else:
-                lyst[k] = rear_half[j]
-                j += 1
-            k += 1
-        while i < len(front_half):
-            lyst[k] = front_half[i]
-            i += 1
-            k += 1
-        while j < len(rear_half):
-            lyst[k] = rear_half[j]
-            j += 1
-            k += 1
+                lyst[idx] = rear_half[r_idx]
+                r_idx += 1
+            idx += 1
+        while f_idx < len(front_half):
+            lyst[idx] = front_half[f_idx]
+            f_idx += 1
+            idx += 1
+        while r_idx < len(rear_half):
+            lyst[idx] = rear_half[r_idx]
+            r_idx += 1
+            idx += 1
     return lyst
 
 

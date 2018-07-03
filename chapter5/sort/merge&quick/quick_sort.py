@@ -1,25 +1,24 @@
 def partition(lyst, first, last):
-    left_mark = first + 1
-    right_mark = last
-    done = False
-    while not done:
-        while left_mark <= right_mark and lyst[left_mark] <= lyst[first]:
-            left_mark += 1
-        while lyst[right_mark] >= lyst[first] and right_mark >= left_mark:
-            right_mark -= 1
-        if right_mark < left_mark:
-            done = True
+    front = first + 1
+    rear = last
+    while True:
+        while front <= rear and lyst[front] <= lyst[first]:
+            front += 1
+        while front <= rear and lyst[rear] >= lyst[first]:
+            rear -= 1
+        if front > rear:
+            break
         else:
-            lyst[left_mark], lyst[right_mark] = lyst[right_mark], lyst[left_mark]
-    lyst[first], lyst[right_mark] = lyst[right_mark], lyst[first]
-    return right_mark
+            lyst[front], lyst[rear] = lyst[rear], lyst[front]
+    lyst[first], lyst[rear] = lyst[rear], lyst[first]
+    return rear
 
 
 def quick_sort_helper(lyst, first, last):
     if first < last:
-        splitpoint = partition(lyst, first, last)
-        quick_sort_helper(lyst, first, splitpoint - 1)
-        quick_sort_helper(lyst, splitpoint + 1, last)
+        pivot = partition(lyst, first, last)
+        quick_sort_helper(lyst, first, pivot)
+        quick_sort_helper(lyst, pivot + 1, last)
 
 
 def quick_sort(lyst):
